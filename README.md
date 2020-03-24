@@ -4,4 +4,4 @@
 
 This project is published under the DBAD License v1.1
 
-For more information visit dbad-license.org
+For more information visit https://dbad-license.org
