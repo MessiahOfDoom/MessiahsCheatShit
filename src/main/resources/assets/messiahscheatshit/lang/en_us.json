@@ -1,0 +1,13 @@
+{
+	"key.messiahscheatshit.config": "Config Key",
+	"key.messiahscheatshit.spectate": "Toggle Spectate",
+	"key.messiahscheatshit.xray": "Toggle XRay",
+	"keycat.messiahscheatshit.general": "Messiahs Cheat Shit",
+	
+	"lbl.messiahscheatshit.outline": "Outline:",
+	"lbl.messiahscheatshit.reach": "Reach:",
+	"lbl.messiahscheatshit.fullbright": "Fullbright:",
+	"lbl.messiahscheatshit.autofish": "Auto fishing:",
+	"lbl.messiahscheatshit.spectate": "Player to spectate:",
+	"lbl.messiahscheatshit.xray": "XRay Filter Regexes:"
+}

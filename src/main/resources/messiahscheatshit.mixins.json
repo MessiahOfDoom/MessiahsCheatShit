@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.schneider_oliver.cheatshit.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ShouldDrawSideMixin",
+	"GetReachDistanceMixin",
+	"PlayerEntityRendererMixin",
+	"PlaySoundMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

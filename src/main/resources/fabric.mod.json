@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "messiahscheatshit",
+  "version": "${version}",
+
+  "name": "Messiahs Cheat Shit Fabric Version",
+  "description": "Simple Clientside Cheat Mod",
+  "authors": [
+    "MessiahOfDoom (Oliver Schneider)"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "DBADv1.1",
+  "icon": "assets/messiahscheatshit/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "de.schneider_oliver.cheatshit.ModMain"
+    ]
+  },
+  "mixins": [
+    "messiahscheatshit.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
