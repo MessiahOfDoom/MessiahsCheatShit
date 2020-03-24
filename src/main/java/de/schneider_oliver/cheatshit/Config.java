@@ -157,7 +157,8 @@ public class Config extends Screen{
 			client.openScreen(new Config());
 		}
 	}
-
+	
+	@Override
 	public void renderBackground() {
 		this.fillGradient(0, 0, width, height, -1072689136, -804253680);
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -207,5 +208,10 @@ public class Config extends Screen{
 		ModMain.saveConfig();
 		if(isXRayActive && MinecraftClient.getInstance().worldRenderer != null)MinecraftClient.getInstance().worldRenderer.reload();
 	}
+	
+	@Override
+	public boolean isPauseScreen() {
+	      return false;
+	   }
 	
 }
