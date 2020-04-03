@@ -9,5 +9,9 @@
 	"lbl.messiahscheatshit.fullbright": "Fullbright:",
 	"lbl.messiahscheatshit.autofish": "Auto fishing:",
 	"lbl.messiahscheatshit.spectate": "Player to spectate:",
-	"lbl.messiahscheatshit.xray": "XRay Filter Regexes:"
+	"lbl.messiahscheatshit.xray": "XRay Filter Regexes:",
+	"lbl.messiahscheatshit.boatfly.active": "Boatfly:",
+	"lbl.messiahscheatshit.boatfly.hor": "Boatfly hor. speed:",
+	"lbl.messiahscheatshit.boatfly.vert": "Boatfly vert. speed:",
+	"lbl.messiahscheatshit.nofall": "NoFall:"
 }

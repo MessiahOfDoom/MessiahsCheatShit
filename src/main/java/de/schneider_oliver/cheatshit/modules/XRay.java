@@ -1,14 +1,16 @@
 package de.schneider_oliver.cheatshit.modules;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import de.schneider_oliver.cheatshit.Config;
 import de.schneider_oliver.cheatshit.ModMain;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
 
 public class XRay {
 	
-
 	private static boolean wasXRayPressedLastTick = false;
 	
 	public static void toggleXray(MinecraftClient client) {
@@ -22,17 +24,26 @@ public class XRay {
 		}else {
 			wasXRayPressedLastTick = false;
 		}
+
+		
+		
 	}
 	
 	public static boolean isBlockInList(BlockState state) {
-		
-		String internalName = state.getBlock().getName() instanceof TranslatableText ? ((TranslatableText)state.getBlock().getName()).getKey() : state.getBlock().getName().asString();
+		return isBlockInList(state.getBlock());
+	}
+	
+	public static boolean isBlockInList(Block block) {
+		String name = block.getName().asString();
 		for(String s: Config.xrayFilter.split(";")) {
 			if(s.length() > 0) {
-				if(internalName.matches("^.*" + s + ".*$"))return true;
+				Pattern pattern = Pattern.compile(s, Pattern.CASE_INSENSITIVE);
+				Matcher matcher = pattern.matcher(name);
+				if(matcher.find())return true;
+//				if(name.matches("^.*" + s + ".*$"))return true;
 			}
 		}
 		return false;
 	}
-
+	
 }

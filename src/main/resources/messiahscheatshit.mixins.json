@@ -9,7 +9,9 @@
     "ShouldDrawSideMixin",
 	"GetReachDistanceMixin",
 	"PlayerEntityRendererMixin",
-	"PlaySoundMixin"
+	"PlaySoundMixin",
+	"BoatEntityMixin",
+	"BlockStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

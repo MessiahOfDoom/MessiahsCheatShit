@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
 import de.schneider_oliver.cheatshit.modules.AutoFish;
+import de.schneider_oliver.cheatshit.modules.BoatFly;
+import de.schneider_oliver.cheatshit.modules.NoFall;
 import de.schneider_oliver.cheatshit.modules.Spectate;
 import de.schneider_oliver.cheatshit.modules.XRay;
 import net.fabricmc.api.ModInitializer;
@@ -41,6 +43,8 @@ public class ModMain implements ModInitializer{
 		
 		ClientTickCallback.EVENT.register(Spectate::spectate);
 		ClientTickCallback.EVENT.register(AutoFish::autoFish);
+		ClientTickCallback.EVENT.register(BoatFly::boatFly);
+		ClientTickCallback.EVENT.register(NoFall::noFall);
 	}
 	
 	public FabricKeyBinding registerKeyBinding(String name, int keycode, ClientTickCallback listener) {

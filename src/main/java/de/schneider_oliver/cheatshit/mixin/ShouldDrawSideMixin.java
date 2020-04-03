@@ -33,4 +33,14 @@ public class ShouldDrawSideMixin {
 	private void getRenderType(BlockState state, CallbackInfoReturnable<BlockRenderType> info) {
 		if(Config.isXRayActive && !XRay.isBlockInList(state))info.setReturnValue(BlockRenderType.INVISIBLE);
 	}
+	
+	@Inject(at = @At("HEAD"), method = "isOpaque(Lnet/minecraft/block/BlockState;)Z", cancellable = true)
+	public void isOpaque(BlockState state, CallbackInfoReturnable<Boolean> info) {
+		if(Config.isXRayActive && !XRay.isBlockInList(state))info.setReturnValue(false);
+	}
+	
+	@Inject(at = @At("HEAD"), method = "isFullOpaque(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;)Z", cancellable = true)
+	public void isFullOpaque(BlockState state, BlockView view, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
+		if(Config.isXRayActive && !XRay.isBlockInList(state))info.setReturnValue(false);
+	}
 }

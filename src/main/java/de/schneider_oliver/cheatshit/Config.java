@@ -31,7 +31,10 @@ public class Config extends Screen{
 	public static boolean isSpectateActive = false;
 	public static String spectateName = "";
 	public static String xrayFilter = "";
-
+	public static boolean isBoatFlyActive = false;
+	public static float boatSpeedVert = 2;
+	public static float boatSpeedHor = 3;
+	public static boolean isNofallActive = false;
 
 	/*
 	 * PRIVATE
@@ -41,10 +44,14 @@ public class Config extends Screen{
 	private static final Identifier TEXTURE = new Identifier(ModMain.MOD_ID, "textures/gui/gui_config.png");
 	private TextFieldWidget spectatorField;
 	private TextFieldWidget xrayFilterField;
+	private TextFieldWidget boatflyHorField;
+	private TextFieldWidget boatflyVertField;
 	private ButtonWidget btnOutline;
 	private ButtonWidget btnReach;
 	private ButtonWidget btnFullbright;
 	private ButtonWidget btnAutofish;
+	private ButtonWidget btnBoatFly;
+	private ButtonWidget btnNoFall;
 	private static int xSize = 256, ySize = 200, left, top, right;
 
 	public Config() {
@@ -71,7 +78,7 @@ public class Config extends Screen{
 			ModMain.putConfigValue("is-reach-active", isReachActive + "");
 		}));
 
-		spectatorField = new TextFieldWidget(font, right - buttonWidth * 6, (int)(top + buttonHeight * 1.5), buttonWidth * 5, buttonHeight, I18n.translate(ModMain.MOD_ID + ".text.spectate"));
+		spectatorField = new TextFieldWidget(font, right - buttonWidth * 6, (int)(top + buttonHeight * 1.5), buttonWidth * 5, buttonHeight, I18n.translate("text." + ModMain.MOD_ID + ".spectate"));
 		spectatorField.setText(spectateName);
 
 		btnFullbright = this.addButton(new ButtonWidget(width / 2 - buttonWidth * 2, (int)(top + buttonHeight * 2.75), buttonWidth, buttonHeight, (isFullbrightActive ? TextFormat.DARK_GREEN + "\u2714" : TextFormat.DARK_RED + "\u2715"), (button) -> {
@@ -87,8 +94,26 @@ public class Config extends Screen{
 			ModMain.putConfigValue("is-autofish-active", isAutoFishActive + "");
 		}));
 
-		xrayFilterField = new TextFieldWidget(font, right - buttonWidth * 6, (int)(top + buttonHeight * 4), buttonWidth * 5, buttonHeight, I18n.translate(ModMain.MOD_ID + ".text.spectate"));
+		xrayFilterField = new TextFieldWidget(font, right - buttonWidth * 6, (int)(top + buttonHeight * 4), buttonWidth * 5, buttonHeight, I18n.translate("text." + ModMain.MOD_ID + ".xray"));
 		xrayFilterField.setText(xrayFilter);
+		
+		btnBoatFly = this.addButton(new ButtonWidget(width / 2 - buttonWidth * 2, (int)(top + buttonHeight * 5.25), buttonWidth, buttonHeight, (isBoatFlyActive ? TextFormat.DARK_GREEN + "\u2714" : TextFormat.DARK_RED + "\u2715"), (button) -> {
+			isBoatFlyActive = !isBoatFlyActive;
+			button.setMessage((isBoatFlyActive ? TextFormat.DARK_GREEN + "\u2714" : TextFormat.DARK_RED + "\u2715"));
+			ModMain.putConfigValue("is-boatfly-active", isBoatFlyActive + "");
+		}));
+
+		btnNoFall = this.addButton(new ButtonWidget(right - buttonWidth * 2, (int)(top + buttonHeight * 5.25), buttonWidth, buttonHeight, (isNofallActive ? TextFormat.DARK_GREEN + "\u2714" : TextFormat.DARK_RED + "\u2715"), (button) -> {
+			isNofallActive = !isNofallActive;
+			button.setMessage((isNofallActive ? TextFormat.DARK_GREEN + "\u2714" : TextFormat.DARK_RED + "\u2715"));
+			ModMain.putConfigValue("is-nofall-active", isNofallActive + "");
+		}));
+		
+		boatflyHorField = new TextFieldWidget(font, right - buttonWidth * 6, (int)(top + buttonHeight * 6.5), buttonWidth * 5, buttonHeight, I18n.translate("text." + ModMain.MOD_ID + ".boathor"));
+		boatflyHorField.setText(String.format("%1.2f", boatSpeedHor));
+		
+		boatflyVertField = new TextFieldWidget(font, right - buttonWidth * 6, (int)(top + buttonHeight * 7.75), buttonWidth * 5, buttonHeight, I18n.translate("text." + ModMain.MOD_ID + ".boatvert"));
+		boatflyVertField.setText(String.format("%1.2f", boatSpeedVert));
 	}
 
 	@Override
@@ -101,8 +126,14 @@ public class Config extends Screen{
 		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".fullbright"), left + 20, top + 62, 0x404040);
 		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".autofish"), right - buttonWidth * 6, top + 62, 0x404040);
 		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".xray"), left + 20, top + 87, 0x404040);
+		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".boatfly.active"), left + 20, top + 112, 0x404040);
+		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".nofall"), right - buttonWidth * 6, top + 112, 0x404040);
+		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".boatfly.hor"), left + 20, top + 137, 0x404040);
+		this.font.draw(I18n.translate("lbl." + ModMain.MOD_ID + ".boatfly.vert"), left + 20, top + 162, 0x404040);
 		this.spectatorField.render(mouseX, mouseY, delta);
 		this.xrayFilterField.render(mouseX, mouseY, delta);
+		this.boatflyHorField.render(mouseX, mouseY, delta);
+		this.boatflyVertField.render(mouseX, mouseY, delta);
 	}
 
 	@Override
@@ -119,6 +150,19 @@ public class Config extends Screen{
 			ModMain.putConfigValue("xray-block-filter-regexes", xrayFilter);
 			return true;
 		}
+		else if(this.boatflyHorField.isFocused()) {
+			this.boatflyHorField.charTyped(chr, keyCode);
+			boatSpeedHor = asFloat(boatflyHorField.getText(), 3.0f);
+			ModMain.putConfigValue("boatfly-speed-horizontal", boatSpeedHor + "");
+			return true;
+		}
+		else if(this.boatflyVertField.isFocused()) {
+			this.boatflyVertField.charTyped(chr, keyCode);
+			boatSpeedVert = asFloat(boatflyVertField.getText(), 3.0f);
+			ModMain.putConfigValue("boatfly-speed-vertical", boatSpeedVert + "");
+			return true;
+		}
+		
 		return super.charTyped(chr, keyCode);
 	}
 
@@ -136,6 +180,18 @@ public class Config extends Screen{
 			ModMain.putConfigValue("xray-block-filter-regexes", xrayFilter);
 			return true;
 		}
+		else if(this.boatflyHorField.isFocused()) {
+			this.boatflyHorField.keyPressed(keyCode, scanCode, modifiers);
+			boatSpeedHor = asFloat(boatflyHorField.getText(), 3.0f);
+			ModMain.putConfigValue("boatfly-speed-horizontal", boatSpeedHor + "");
+			return true;
+		}
+		else if(this.boatflyVertField.isFocused()) {
+			this.boatflyVertField.keyPressed(keyCode, scanCode, modifiers);
+			boatSpeedVert = asFloat(boatflyVertField.getText(), 3.0f);
+			ModMain.putConfigValue("boatfly-speed-vertical", boatSpeedVert + "");
+			return true;
+		}
 		return super.keyPressed(keyCode, scanCode, modifiers);
 	}
 
@@ -146,6 +202,10 @@ public class Config extends Screen{
 		} else if(spectatorField.mouseClicked(mouseX, mouseY, button)){
 			return true;
 		} else if(xrayFilterField.mouseClicked(mouseX, mouseY, button)){
+			return true;
+		} else if(boatflyHorField.mouseClicked(mouseX, mouseY, button)){
+			return true;
+		} else if(boatflyVertField.mouseClicked(mouseX, mouseY, button)){
 			return true;
 		}
 		return false;
@@ -173,6 +233,10 @@ public class Config extends Screen{
 		isAutoFishActive = asBoolean((String) properties.computeIfAbsent("is-autofish-active", obj -> "false"), false);
 		spectateName = (String) properties.computeIfAbsent("name-to-spectate", obj -> "");
 		xrayFilter = (String) properties.computeIfAbsent("xray-block-filter-regexes", obj -> "ore");
+		isReachActive = asBoolean((String) properties.computeIfAbsent("is-boatfly-active", obj -> "false"), false);
+		isAutoFishActive = asBoolean((String) properties.computeIfAbsent("is-nofall-active", obj -> "false"), false);
+		boatSpeedHor = asFloat((String) properties.computeIfAbsent("boatfly-speed-horizontal", obj -> "3.0"), 3.0f);
+		boatSpeedVert = asFloat((String) properties.computeIfAbsent("boatfly-speed-vertical", obj -> "2.0"), 2.0f);
 	}
 	
 	private static TriState asTriState(String property) {
@@ -198,6 +262,14 @@ public class Config extends Screen{
 		case FALSE:
 			return false;
 		default:
+			return defValue;
+		}
+	}
+	
+	private static float asFloat(String property, float defValue) {
+		try {
+			return Float.parseFloat(property);
+		}catch(NumberFormatException | NullPointerException e) {
 			return defValue;
 		}
 	}
