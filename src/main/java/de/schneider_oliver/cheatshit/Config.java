@@ -233,8 +233,8 @@ public class Config extends Screen{
 		isAutoFishActive = asBoolean((String) properties.computeIfAbsent("is-autofish-active", obj -> "false"), false);
 		spectateName = (String) properties.computeIfAbsent("name-to-spectate", obj -> "");
 		xrayFilter = (String) properties.computeIfAbsent("xray-block-filter-regexes", obj -> "ore");
-		isReachActive = asBoolean((String) properties.computeIfAbsent("is-boatfly-active", obj -> "false"), false);
-		isAutoFishActive = asBoolean((String) properties.computeIfAbsent("is-nofall-active", obj -> "false"), false);
+		isBoatFlyActive = asBoolean((String) properties.computeIfAbsent("is-boatfly-active", obj -> "false"), false);
+		isNofallActive = asBoolean((String) properties.computeIfAbsent("is-nofall-active", obj -> "false"), false);
 		boatSpeedHor = asFloat((String) properties.computeIfAbsent("boatfly-speed-horizontal", obj -> "3.0"), 3.0f);
 		boatSpeedVert = asFloat((String) properties.computeIfAbsent("boatfly-speed-vertical", obj -> "2.0"), 2.0f);
 	}
